@@ -58,7 +58,7 @@ expected<void, nats::NatsError> run_producer()
 
         // nats_Sleep(0);
         // std::this_thread::sleep_for(std::chrono::nanoseconds(1'000));
-        struct timespec ts = {0, 10'000}; // 10 us
+        struct timespec ts = {0, 1'000}; // 1 us
         nanosleep(&ts, NULL);
     }
 
