@@ -1,0 +1,9 @@
+{
+    "name": "natsclient-cpp",
+    "version": "0.1.0",
+    "dependencies": [
+      "benchmark",
+      "cnats"
+    ]
+  }
+  

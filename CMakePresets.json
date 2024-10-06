@@ -1,0 +1,251 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "_common",
+      "hidden": true,
+      "cacheVariables": {
+        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/triplets",
+        "CMAKE_MAKE_PROGRAM": "make"
+      }
+    },
+    {
+      "name": "_gcc",
+      "inherits": ["_common"],
+      "description": "GCC C++ compiler.",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/gcc",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        }
+      },
+      "environment": {
+        "__DISABLED": "-fno-exceptions -Wfatal-errors -Wunused -Wconversion",
+        "CMAKE_CXX_FLAGS": "-fcoroutines -Wall -Wpedantic -Wextra -fno-rtti -Wno-unused-parameter -Wno-unused-function -Werror=return-type -Woverloaded-virtual -Wnon-virtual-dtor -Wno-ignored-attributes"
+      }
+    },
+    {
+      "name": "_clang",
+      "inherits": ["_common"],
+      "description": "Clang C++ compiler.",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/clang",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        }
+      },
+      "environment": {
+        "__DISABLED": "-fno-exceptions -Wfatal-errors -Wunused -Wconversion",
+        "CMAKE_CXX_FLAGS": "-stdlib=libc++ -Wall -Wpedantic -Wextra -fno-rtti -Wno-unused-parameter -Wno-unused-function -Werror=return-type -Woverloaded-virtual -Wnon-virtual-dtor -Wno-ignored-attributes"
+      }
+    },
+    {
+      "name": "gcc_debug",
+      "inherits": ["_gcc"],
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -ggdb -O0"
+      }
+    },
+    {
+      "name": "gcc_release",
+      "inherits": ["_gcc"],
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -g1 -O3 -flto=auto -DNDEBUG"
+      }
+    },
+    {
+      "name": "clang_debug",
+      "hidden": true,
+      "inherits": ["_clang"],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -ggdb -O0"
+      }
+    },
+    {
+      "name": "clang_release",
+      "inherits": ["_clang"],
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -g1 -O3 -flto=auto -DNDEBUG"
+      }
+    },
+    {
+      "name": "gcc_debug examples",
+      "inherits": ["gcc_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
+      "name": "gcc_debug tests",
+      "inherits": ["gcc_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "gcc_debug bench",
+      "inherits": ["gcc_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_BENCH": "ON"
+      }
+    },
+    {
+      "name": "gcc_debug scratch",
+      "inherits": ["gcc_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_SCRATCH": "ON"
+      }
+    },
+    {
+      "name": "gcc_debug tests sanitized",
+      "inherits": ["gcc_debug tests"],
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -fsanitize=leak -fsanitize=address -fsanitize=undefined"
+      }
+    },
+    {
+      "name": "gcc_debug examples sanitized",
+      "inherits": ["gcc_debug examples"],
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -fsanitize=leak -fsanitize=address -fsanitize=undefined"
+      }
+    },
+    {
+      "name": "gcc_release bench",
+      "inherits": ["gcc_release"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_BENCH": "ON"
+      }
+    },
+    {
+      "name": "gcc_release examples",
+      "inherits": ["gcc_release"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
+      "name": "gcc_release tests",
+      "inherits": ["gcc_release"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "gcc_perf",
+      "inherits": ["_gcc"],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -g -O3 -flto=auto -DNDEBUG"
+      }
+    },
+    {
+      "name": "clang_debug examples",
+      "inherits": ["clang_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
+      "name": "clang_debug tests",
+      "inherits": ["clang_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "clang_debug bench",
+      "inherits": ["clang_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_BENCH": "ON"
+      }
+    },
+    {
+      "name": "clang_debug scratch",
+      "inherits": ["clang_debug"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_SCRATCH": "ON"
+      }
+    },
+    {
+      "name": "clang_debug tests sanitized",
+      "inherits": ["clang_debug tests"],
+      "cacheVariables": {
+        "__DISABLED": "-fsanitize=leak",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer -g -funwind-tables"
+      }
+    },
+    {
+      "name": "clang_debug examples sanitized",
+      "inherits": ["clang_debug examples"],
+      "cacheVariables": {
+        "__DISABLED": "-fsanitize=leak",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer -g -funwind-tables"
+      }
+    },
+    {
+      "name": "clang_release bench",
+      "inherits": ["clang_release"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_BENCH": "ON"
+      }
+    },
+    {
+      "name": "clang_release examples",
+      "inherits": ["clang_release"],
+      "cacheVariables": {
+        "NATS_CLIENT_BUILD_EXAMPLES": "ON"
+      }
+    },
+    {
+      "name": "gcc_dev_install",
+      "description": "Build for development with GCC and install into ./build/gcc/dev_install",
+      "inherits": ["_gcc"],
+      "hidden": false,
+      "binaryDir": "${sourceDir}/build/gcc/dev_install",
+      "cacheVariables": {
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/gcc/dev_install",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -g1 -O3 -flto=auto -DNDEBUG",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang_dev_install",
+      "description": "Build for development with Clang and install into ./build/clang/dev_install",
+      "inherits": ["_clang"],
+      "hidden": false,
+      "binaryDir": "${sourceDir}/build/clang/dev_install",
+      "cacheVariables": {
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/clang/dev_install",
+        "CMAKE_CXX_FLAGS": "$env{CMAKE_CXX_FLAGS} -g1 -O3 -flto=auto -DNDEBUG",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "gcc_dev_install",
+      "description": "Build for development with GCC to folder ./build/gcc/dev_install",
+      "configurePreset": "gcc_dev_install"
+    },
+    {
+      "name": "clang_dev_install",
+      "description": "Build for development with Clang to folder ./build/clang/dev_install",
+      "configurePreset": "clang_dev_install"
+    }
+  ]
+}

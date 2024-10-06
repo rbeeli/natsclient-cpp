@@ -1,0 +1,12 @@
+cmake-build-debug/
+cmake-build-debug-coverage/
+.idea
+build/
+vcpkg_installed/
+out/
+tests/autobahn/reports/
+wstest/
+.DS_Store
+venv/
+.venv/
+env/
