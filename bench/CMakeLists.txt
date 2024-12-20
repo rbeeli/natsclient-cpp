@@ -11,3 +11,10 @@ target_link_libraries(bench_lat_pub_sub PRIVATE cnats::nats_static)
 #     ASIO_STANDALONE=1
 #     ASIO_NO_TYPEID=1
 # )
+
+
+
+add_executable(bench_zeromq bench_zeromq.cpp)
+target_include_directories(bench_zeromq PUBLIC ${PROJECT_SOURCE_DIR}/include)
+find_package(cppzmq CONFIG REQUIRED)
+target_link_libraries(bench_zeromq PRIVATE cppzmq cppzmq-static)
